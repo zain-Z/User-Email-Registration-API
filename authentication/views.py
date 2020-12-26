@@ -5,7 +5,7 @@ from .serializers import UserSerializer
 
 
 class RegisterView(GenericAPIView):
-    serializer_class = UserSerializer()
+    serializer_class = UserSerializer
 
     def post(self, request):
         serializer = UserSerializer(data=request.data)

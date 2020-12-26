@@ -13,14 +13,14 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'username', 'first_name', 'last_name', 'email'
+            'username', 'first_name', 'last_name', 'email', 'password'
         ]
 
-    def validate(self, attrs):
-        if User.objects.filter(email=attrs['email']).exists():
-            raise serializers.ValidationError(
-                {'email', ('email is already in use')})
-        return super.validate(attrs)
-
-    def create(self, validate_data):
-        return User.objects.create_user(validate_data)
+    def create(self, validated_data):
+        user = User.objects.filter(email=validated_data['email'])
+        if user:
+            raise serializers.ValidationError({"email": ("The email '" +
+                                                         validated_data['email'] +
+                                                         "' already exists")})
+        else:
+            return User.objects.create_user(**validated_data)
