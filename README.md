@@ -1,1 +1,1 @@
-# User-Email-Regestration-API
+# User-Email-Registration-API
